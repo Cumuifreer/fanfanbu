@@ -1,0 +1,16 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="64" fill="#F5E7DA"/>
+  <circle cx="1030" cy="200" r="120" fill="#F0D4B2"/>
+  <circle cx="160" cy="720" r="140" fill="#EACCB0"/>
+  <ellipse cx="600" cy="520" rx="330" ry="215" fill="#FFFDF8"/>
+  <ellipse cx="600" cy="552" rx="250" ry="140" fill="#B86646"/>
+  <circle cx="500" cy="520" r="50" fill="#F2C18C"/>
+  <circle cx="600" cy="490" r="56" fill="#F0B878"/>
+  <circle cx="692" cy="528" r="50" fill="#D77A4F"/>
+  <circle cx="554" cy="592" r="48" fill="#8D4A2F"/>
+  <circle cx="650" cy="600" r="46" fill="#F7D27A"/>
+  <circle cx="742" cy="584" r="24" fill="#7F2E2E"/>
+  <circle cx="462" cy="602" r="20" fill="#7F2E2E"/>
+  <text x="96" y="124" fill="#7A4C38" font-size="76" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-weight="700">宫保鸡丁</text>
+  <text x="96" y="190" fill="#9D7A67" font-size="34" font-family="PingFang SC, Microsoft YaHei, sans-serif">红区 · 酸甜微辣</text>
+</svg>

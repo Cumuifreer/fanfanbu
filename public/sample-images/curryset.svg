@@ -1,0 +1,16 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="64" fill="#F3EDE8"/>
+  <circle cx="980" cy="170" r="116" fill="#E5D8CF"/>
+  <circle cx="200" cy="730" r="150" fill="#EEE2D9"/>
+  <rect x="310" y="380" width="580" height="290" rx="42" fill="#FFFDFB"/>
+  <rect x="352" y="430" width="250" height="190" rx="28" fill="#C1834E"/>
+  <rect x="624" y="430" width="220" height="190" rx="28" fill="#FBF8F2"/>
+  <circle cx="430" cy="520" r="40" fill="#F0BF72"/>
+  <circle cx="510" cy="540" r="34" fill="#D96E4C"/>
+  <circle cx="468" cy="590" r="26" fill="#F4D590"/>
+  <circle cx="706" cy="500" r="22" fill="#E0B567"/>
+  <circle cx="754" cy="534" r="24" fill="#7AA874"/>
+  <circle cx="790" cy="482" r="20" fill="#D16751"/>
+  <text x="96" y="124" fill="#7F6B5E" font-size="76" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-weight="700">咖喱鸡定食</text>
+  <text x="96" y="190" fill="#9C897C" font-size="34" font-family="PingFang SC, Microsoft YaHei, sans-serif">定食 · 一套搞定</text>
+</svg>

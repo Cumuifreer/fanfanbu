@@ -1,0 +1,13 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="64" fill="#F1F3EB"/>
+  <circle cx="980" cy="170" r="108" fill="#DBE5D2"/>
+  <circle cx="220" cy="730" r="150" fill="#E7EBDD"/>
+  <ellipse cx="600" cy="520" rx="330" ry="215" fill="#FFFDFC"/>
+  <ellipse cx="600" cy="560" rx="250" ry="138" fill="#C0D2BD"/>
+  <path d="M480 582C456 520 470 470 534 442C546 498 540 554 480 582Z" fill="#8EAF82"/>
+  <path d="M560 612C520 548 534 478 616 438C624 518 622 578 560 612Z" fill="#9CC08D"/>
+  <path d="M648 604C610 540 628 478 706 458C716 520 712 578 648 604Z" fill="#7BA66F"/>
+  <path d="M730 584C696 530 708 484 772 462C780 514 778 560 730 584Z" fill="#A8C998"/>
+  <text x="96" y="124" fill="#68806B" font-size="76" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-weight="700">白灼生菜</text>
+  <text x="96" y="190" fill="#8BA08E" font-size="34" font-family="PingFang SC, Microsoft YaHei, sans-serif">白区 · 清脆轻盈</text>
+</svg>

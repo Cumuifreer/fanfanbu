@@ -1,0 +1,14 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="64" fill="#F4E4D8"/>
+  <circle cx="970" cy="150" r="110" fill="#E8C5AE"/>
+  <circle cx="210" cy="770" r="180" fill="#EFD8C7"/>
+  <ellipse cx="600" cy="520" rx="330" ry="210" fill="#FEFCF8"/>
+  <ellipse cx="600" cy="560" rx="250" ry="130" fill="#B76958"/>
+  <rect x="430" y="470" width="110" height="90" rx="24" fill="#F2C49A"/>
+  <rect x="545" y="440" width="120" height="100" rx="24" fill="#8E4038"/>
+  <rect x="676" y="482" width="102" height="88" rx="24" fill="#C8745D"/>
+  <rect x="505" y="558" width="110" height="88" rx="24" fill="#D18860"/>
+  <rect x="628" y="545" width="128" height="92" rx="24" fill="#7C382D"/>
+  <text x="96" y="124" fill="#7A4C38" font-size="76" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-weight="700">红烧肉</text>
+  <text x="96" y="190" fill="#9D7A67" font-size="34" font-family="PingFang SC, Microsoft YaHei, sans-serif">红区 · 浓香软糯</text>
+</svg>

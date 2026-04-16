@@ -1,0 +1,16 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="64" fill="#F1F4EF"/>
+  <circle cx="980" cy="170" r="110" fill="#DCE3D7"/>
+  <circle cx="180" cy="740" r="160" fill="#E6ECE0"/>
+  <ellipse cx="600" cy="520" rx="330" ry="215" fill="#FFFDFC"/>
+  <ellipse cx="600" cy="560" rx="255" ry="142" fill="#C8D5C3"/>
+  <circle cx="500" cy="540" r="34" fill="#E8EFE4"/>
+  <circle cx="566" cy="502" r="38" fill="#EDF3EA"/>
+  <circle cx="642" cy="548" r="36" fill="#E6EEE1"/>
+  <circle cx="716" cy="518" r="34" fill="#EEF4EB"/>
+  <circle cx="630" cy="614" r="14" fill="#97856A"/>
+  <circle cx="694" cy="588" r="12" fill="#97856A"/>
+  <circle cx="544" cy="604" r="12" fill="#97856A"/>
+  <text x="96" y="124" fill="#68806B" font-size="76" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-weight="700">冬瓜虾皮汤</text>
+  <text x="96" y="190" fill="#8BA08E" font-size="34" font-family="PingFang SC, Microsoft YaHei, sans-serif">白区 · 清淡暖胃</text>
+</svg>

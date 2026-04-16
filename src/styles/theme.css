@@ -1,0 +1,83 @@
+:root {
+  color-scheme: light;
+  font-family:
+    "PingFang SC",
+    "SF Pro SC",
+    "Hiragino Sans GB",
+    "Noto Sans CJK SC",
+    "Noto Sans SC",
+    "Source Han Sans SC",
+    "Microsoft YaHei UI",
+    "Microsoft YaHei",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #2f2925;
+  background:
+    radial-gradient(circle at top left, rgba(236, 219, 205, 0.92), transparent 32%),
+    linear-gradient(180deg, #f9f3eb 0%, #f8f5f1 48%, #f4efe9 100%);
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --font-sans:
+    "PingFang SC",
+    "SF Pro SC",
+    "Hiragino Sans GB",
+    "Noto Sans CJK SC",
+    "Noto Sans SC",
+    "Source Han Sans SC",
+    "Microsoft YaHei UI",
+    "Microsoft YaHei",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  --font-display:
+    "PingFang SC",
+    "SF Pro Display",
+    "Hiragino Sans GB",
+    "Noto Sans SC",
+    "Source Han Sans SC",
+    sans-serif;
+  --surface: rgba(255, 252, 248, 0.86);
+  --surface-strong: rgba(255, 255, 255, 0.94);
+  --surface-soft: rgba(249, 243, 235, 0.86);
+  --line: rgba(117, 95, 79, 0.12);
+  --line-strong: rgba(117, 95, 79, 0.2);
+  --text: #2f2925;
+  --text-soft: #6c5c51;
+  --text-faint: #8f7f74;
+  --accent: #7f5c45;
+  --accent-strong: #5d4031;
+  --accent-soft: #efe1d4;
+  --red-zone: #a15747;
+  --white-zone: #7a8976;
+  --set-zone: #8b7b9d;
+  --danger: #b15555;
+  --success: #4f8168;
+  --shadow-lg: 0 30px 80px rgba(97, 77, 58, 0.12);
+  --shadow-md: 0 18px 44px rgba(97, 77, 58, 0.1);
+  --shadow-sm: 0 10px 24px rgba(97, 77, 58, 0.08);
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-sm: 14px;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(161, 87, 71, 0.16);
+}
