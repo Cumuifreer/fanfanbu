@@ -350,6 +350,12 @@ body {
   opacity: 0.7;
 }
 
+.ghost-button:disabled,
+.tab-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .tabs {
   display: flex;
   gap: 10px;
@@ -833,6 +839,14 @@ body {
   flex-wrap: wrap;
 }
 
+.editor-form__action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-left: auto;
+}
+
 .field-error {
   color: var(--danger);
   font-size: 0.9rem;
@@ -915,6 +929,10 @@ body {
 
 .toast--error {
   border-color: rgba(177, 85, 85, 0.18);
+}
+
+.toast--info {
+  border-color: rgba(127, 92, 69, 0.16);
 }
 
 .toast__close {
@@ -1009,9 +1027,19 @@ body {
   .editor-form-panel__header,
   .editor-list-field__header,
   .editor-form__actions,
+  .editor-form__action-buttons,
   .editor-header-actions,
   .editor-image-field__actions {
     flex-direction: column;
+  }
+
+  .editor-form__action-buttons {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .editor-form__action-buttons .button {
+    width: 100%;
   }
 
   .settings-grid,

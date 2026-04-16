@@ -61,6 +61,13 @@ export interface RandomMenuResult {
   generatedAt: string;
 }
 
+export interface EditorPublishResult {
+  status: 'published' | 'no_changes';
+  message: string;
+  branch?: string;
+  commitMessage?: string;
+}
+
 export interface ToastItem {
   id: string;
   tone: 'success' | 'error' | 'info';

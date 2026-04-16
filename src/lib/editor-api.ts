@@ -1,7 +1,7 @@
 import { EDITOR_API } from '../constants/app';
 import { readFileAsDataUrl } from './image';
 import { assertMenuDataset } from './menu-data';
-import type { MenuDataset } from '../types/dish';
+import type { EditorPublishResult, MenuDataset } from '../types/dish';
 
 const parseJsonResponse = async (response: Response) => {
   const rawText = await response.text();
@@ -64,4 +64,22 @@ export const uploadEditorImage = async (file: File) => {
   }
 
   return payload.imagePath;
+};
+
+export const publishEditorChanges = async () => {
+  const response = await fetch(EDITOR_API.publish, {
+    method: 'POST',
+  });
+  const payload = await parseJsonResponse(response);
+  const result = payload.result as Partial<EditorPublishResult> | undefined;
+
+  if (!result || (result.status !== 'published' && result.status !== 'no_changes')) {
+    throw new Error('发布失败，服务端没有返回有效结果。');
+  }
+
+  if (typeof result.message !== 'string') {
+    throw new Error('发布失败，服务端返回的信息不完整。');
+  }
+
+  return result as EditorPublishResult;
 };

@@ -1,3 +1,4 @@
+import { execFile } from 'node:child_process';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,6 +13,8 @@ const pagesBase = '/fanfanbu/';
 const datasetFile = path.join(publicDir, 'data', 'dishes.json');
 const uploadDir = path.join(publicDir, 'menu-images', 'uploads');
 const managedImagePrefix = './menu-images/uploads/';
+const publishBranch = 'main';
+const managedPublishPaths = ['public/data/dishes.json', 'public/menu-images/uploads'];
 const allowedCategories = new Set(['red', 'white', 'set_meal']);
 const mimeExtensions = new Map([
   ['image/jpeg', 'jpg'],
@@ -113,6 +116,153 @@ const sendJson = (res, statusCode, payload) => {
   res.statusCode = statusCode;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.end(JSON.stringify(payload));
+};
+
+const createGitError = (stage, message) => {
+  const error = new Error(message);
+  error.stage = stage;
+  return error;
+};
+
+const runGitCommand = (args, stage) =>
+  new Promise((resolve, reject) => {
+    execFile(
+      'git',
+      args,
+      {
+        cwd: projectRoot,
+        maxBuffer: 1024 * 1024,
+      },
+      (error, stdout, stderr) => {
+        if (error) {
+          reject(
+            createGitError(
+              stage,
+              stderr.trim() || stdout.trim() || error.message || 'Git 命令执行失败。',
+            ),
+          );
+          return;
+        }
+
+        resolve({
+          stdout: stdout.trim(),
+          stderr: stderr.trim(),
+        });
+      },
+    );
+  });
+
+const formatPublishTimestamp = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  const hour = `${date.getHours()}`.padStart(2, '0');
+  const minute = `${date.getMinutes()}`.padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hour}:${minute}`;
+};
+
+const humanizePublishError = (error) => {
+  const stage =
+    error && typeof error === 'object' && 'stage' in error ? error.stage : 'unknown';
+  const rawMessage = error instanceof Error ? error.message : 'Git 发布失败。';
+
+  if (/not a git repository/i.test(rawMessage)) {
+    return '当前目录不是 Git 仓库，暂时无法自动发布。';
+  }
+
+  if (/could not read username|authentication failed|permission denied|repository not found/i.test(rawMessage)) {
+    return '已经保存到本地，但推送到 GitHub 失败。请先确认这台电脑已经完成 GitHub 认证，并且 `git push` 可以正常使用。';
+  }
+
+  if (/please tell me who you are|unable to auto-detect email address/i.test(rawMessage)) {
+    return '已经保存到本地，但这台电脑还没有配置 Git 提交身份。请先设置 git 用户名和邮箱。';
+  }
+
+  if (/failed to push some refs|non-fast-forward|fetch first|rejected/i.test(rawMessage)) {
+    return '已经保存到本地，但推送被 GitHub 拒绝了。请先同步远程 main 分支，再重新发布。';
+  }
+
+  if (/no such remote|does not appear to be a git repository|could not read from remote repository/i.test(rawMessage)) {
+    return '已经保存到本地，但没有找到可用的 GitHub 远程仓库 origin。';
+  }
+
+  if (stage === 'branch') {
+    return `为了避免推错分支，保存并发布只会推送 ${publishBranch}。请先切回 ${publishBranch} 分支后再试。`;
+  }
+
+  if (stage === 'add') {
+    return '已经保存到本地，但整理要发布的菜单文件时失败了，请稍后再试。';
+  }
+
+  if (stage === 'commit') {
+    return '已经保存到本地，但生成 Git 提交失败了，请检查这台电脑的 Git 设置。';
+  }
+
+  if (stage === 'push') {
+    return '已经保存到本地，但推送到 GitHub 失败了，请检查网络和 GitHub 认证。';
+  }
+
+  return `已经保存到本地，但发布失败了：${rawMessage}`;
+};
+
+const listManagedChanges = async () => {
+  const { stdout } = await runGitCommand(
+    ['status', '--porcelain', '--', ...managedPublishPaths],
+    'status',
+  );
+
+  return stdout;
+};
+
+const publishManagedChanges = async () => {
+  const initialChanges = await listManagedChanges();
+
+  if (!initialChanges) {
+    return {
+      status: 'no_changes',
+      message: '当前没有新的菜单改动需要发布。',
+    };
+  }
+
+  const branchResult = await runGitCommand(['rev-parse', '--abbrev-ref', 'HEAD'], 'branch');
+
+  if (branchResult.stdout !== publishBranch) {
+    throw createGitError(
+      'branch',
+      `当前分支是 ${branchResult.stdout || '未知分支'}，不是 ${publishBranch}。`,
+    );
+  }
+
+  await runGitCommand(['add', '-A', '--', ...managedPublishPaths], 'add');
+
+  const { stdout: stagedChanges } = await runGitCommand(
+    ['diff', '--cached', '--name-only', '--', ...managedPublishPaths],
+    'status',
+  );
+
+  if (!stagedChanges) {
+    return {
+      status: 'no_changes',
+      message: '当前没有新的菜单改动需要发布。',
+    };
+  }
+
+  const commitMessage = `update menu data ${formatPublishTimestamp()}`;
+
+  await runGitCommand(
+    ['commit', '--only', '-m', commitMessage, '--', ...managedPublishPaths],
+    'commit',
+  );
+  await runGitCommand(['push', 'origin', publishBranch], 'push');
+
+  return {
+    status: 'published',
+    message: 'GitHub Pages 稍后会自动更新。',
+    branch: publishBranch,
+    commitMessage,
+  };
 };
 
 const collectManagedImages = (dataset) =>
@@ -225,9 +375,24 @@ const createEditorFileApiPlugin = () => ({
           sendJson(res, 200, { imagePath });
           return;
         }
+
+        if (pathname === '/api/editor/publish') {
+          if (req.method !== 'POST') {
+            sendJson(res, 405, { error: '当前方法不被支持。' });
+            return;
+          }
+
+          const result = await publishManagedChanges();
+          sendJson(res, 200, { result });
+          return;
+        }
       } catch (error) {
         const message =
-          error instanceof Error ? error.message : '本地文件操作失败，请稍后再试。';
+          req.url?.includes('/api/editor/publish')
+            ? humanizePublishError(error)
+            : error instanceof Error
+              ? error.message
+              : '本地文件操作失败，请稍后再试。';
         sendJson(res, 500, { error: message });
         return;
       }

@@ -9,6 +9,7 @@ export const DATASET_FILE = './data/dishes.json';
 export const EDITOR_API = {
   dataset: '/api/editor/dataset',
   uploadImage: '/api/editor/upload-image',
+  publish: '/api/editor/publish',
 } as const;
 
 const maxImageSizeFromEnv = Number(import.meta.env.VITE_MAX_IMAGE_SIZE_MB);

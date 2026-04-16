@@ -19,6 +19,7 @@ import {
 } from '../lib/dish-form';
 import {
   loadEditorDataset,
+  publishEditorChanges,
   saveEditorDataset,
   uploadEditorImage,
 } from '../lib/editor-api';
@@ -41,7 +42,9 @@ export default function EditorApp() {
   const [draft, setDraft] = useState<EditorDishDraft>(createEmptyDishDraft);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
+  const [busyAction, setBusyAction] = useState<'save' | 'publish' | 'delete' | null>(
+    null,
+  );
   const [saveError, setSaveError] = useState<string | null>(null);
   const [searchText, setSearchText] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<Dish | null>(null);
@@ -148,6 +151,9 @@ export default function EditorApp() {
   );
 
   const dirty = isDraftDirty(draft, activeDish) || pendingImageFile !== null;
+  const isSavingLocally = busyAction === 'save';
+  const isPublishing = busyAction === 'publish';
+  const isBusy = busyAction !== null;
 
   const handleDraftChange = useCallback((patch: Partial<EditorDishDraft>) => {
     setDraft((current) => ({ ...current, ...patch }));
@@ -200,24 +206,20 @@ export default function EditorApp() {
     setPendingImageFile(null);
     setImagePreviewUrl(null);
     setDraft((current) => ({ ...current, image: null }));
+    setSaveError(null);
   }, []);
 
-  const handleSave = useCallback(async () => {
+  const persistDraft = useCallback(async () => {
     if (!dataset) {
-      return;
+      return null;
     }
 
     const normalizedInput = draftToDishInput(draft);
     const validationError = validateDishInput(normalizedInput);
 
     if (validationError) {
-      setSaveError(validationError);
-      pushToast('error', '保存失败', validationError);
-      return;
+      throw new Error(validationError);
     }
-
-    setIsSaving(true);
-    setSaveError(null);
 
     let nextImagePath = normalizedInput.image;
 
@@ -256,11 +258,11 @@ export default function EditorApp() {
       setSelectedDishId(nextDish.id);
       setPendingImageFile(null);
       setSearchText('');
-      pushToast(
-        'success',
-        activeDish ? '修改已保存' : '新菜已保存',
-        '共享数据文件已经更新，静态展示页刷新后就能看到。',
-      );
+
+      return {
+        savedDish: nextDish,
+        wasExistingDish: Boolean(activeDish),
+      };
     } catch (error) {
       if (pendingImageFile && nextImagePath && nextImagePath !== normalizedInput.image) {
         setDraft((current) => ({ ...current, image: nextImagePath }));
@@ -268,21 +270,87 @@ export default function EditorApp() {
         setPendingImageFile(null);
       }
 
+      throw error;
+    }
+  }, [activeDish, dataset, draft, pendingImageFile]);
+
+  const handleSaveLocal = useCallback(async () => {
+    if (!dirty) {
+      setSaveError(null);
+      pushToast('info', '当前内容已经保存', '没有新的改动需要写入本地文件。');
+      return;
+    }
+
+    setBusyAction('save');
+    setSaveError(null);
+
+    try {
+      const result = await persistDraft();
+
+      if (!result) {
+        pushToast('info', '当前内容已经保存', '没有新的改动需要写入本地文件。');
+        return;
+      }
+
+      pushToast(
+        'success',
+        result.wasExistingDish ? '修改已保存到本地' : '新菜已保存到本地',
+        '共享菜单文件已经更新。准备好后可以直接点“保存并发布”。',
+      );
+    } catch (error) {
       const message =
         error instanceof Error ? error.message : '保存失败，请稍后再试。';
       setSaveError(message);
       pushToast('error', '保存失败', message);
     } finally {
-      setIsSaving(false);
+      setBusyAction(null);
     }
-  }, [activeDish, dataset, draft, pendingImageFile, pushToast]);
+  }, [dirty, persistDraft, pushToast]);
+
+  const handleSaveAndPublish = useCallback(async () => {
+    let savedToLocal = false;
+
+    setBusyAction('publish');
+    setSaveError(null);
+
+    try {
+      if (dirty) {
+        const result = await persistDraft();
+        savedToLocal = Boolean(result);
+      }
+
+      const publishResult = await publishEditorChanges();
+
+      if (publishResult.status === 'no_changes') {
+        pushToast('info', '没有新的内容需要发布', publishResult.message);
+        return;
+      }
+
+      pushToast('success', '已保存并发布', publishResult.message);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : '发布失败，请稍后再试。';
+      const friendlyMessage = savedToLocal
+        ? `本地文件已经保存。${message}`
+        : message;
+
+      setSaveError(friendlyMessage);
+      pushToast(
+        'error',
+        savedToLocal ? '已保存到本地，但发布失败' : '发布失败',
+        friendlyMessage,
+      );
+    } finally {
+      setBusyAction(null);
+    }
+  }, [dirty, persistDraft, pushToast]);
 
   const handleDeleteDish = useCallback(async () => {
     if (!dataset || !activeDish) {
       return;
     }
 
-    setIsSaving(true);
+    setBusyAction('delete');
 
     try {
       const now = new Date().toISOString();
@@ -309,7 +377,7 @@ export default function EditorApp() {
         error instanceof Error ? error.message : '删除失败，请稍后再试。';
       pushToast('error', '删除失败', message);
     } finally {
-      setIsSaving(false);
+      setBusyAction(null);
     }
   }, [activeDish, dataset, pushToast]);
 
@@ -367,6 +435,7 @@ export default function EditorApp() {
             type="button"
             className="button button--secondary"
             onClick={() => window.location.reload()}
+            disabled={isBusy}
           >
             重新读取文件
           </button>
@@ -388,12 +457,15 @@ export default function EditorApp() {
           draft={draft}
           imagePreviewUrl={imagePreviewUrl}
           isDirty={dirty}
-          isSaving={isSaving}
+          isBusy={isBusy}
+          isPublishing={isPublishing}
+          isSavingLocally={isSavingLocally}
           saveError={saveError}
           onChange={handleDraftChange}
           onPickImage={handlePickImage}
           onRemoveImage={handleRemoveImage}
-          onSave={() => void handleSave()}
+          onSaveLocal={() => void handleSaveLocal()}
+          onSaveAndPublish={() => void handleSaveAndPublish()}
           onDelete={() => setDeleteTarget(activeDish)}
         />
       </main>

@@ -10,12 +10,15 @@ interface EditorDishFormProps {
   draft: EditorDishDraft;
   imagePreviewUrl: string | null;
   isDirty: boolean;
-  isSaving: boolean;
+  isBusy: boolean;
+  isPublishing: boolean;
+  isSavingLocally: boolean;
   saveError: string | null;
   onChange: (patch: Partial<EditorDishDraft>) => void;
   onPickImage: (file: File) => void;
   onRemoveImage: () => void;
-  onSave: () => void;
+  onSaveLocal: () => void;
+  onSaveAndPublish: () => void;
   onDelete: () => void;
 }
 
@@ -23,17 +26,20 @@ export const EditorDishForm = ({
   draft,
   imagePreviewUrl,
   isDirty,
-  isSaving,
+  isBusy,
+  isPublishing,
+  isSavingLocally,
   saveError,
   onChange,
   onPickImage,
   onRemoveImage,
-  onSave,
+  onSaveLocal,
+  onSaveAndPublish,
   onDelete,
 }: EditorDishFormProps) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSave();
+    onSaveAndPublish();
   };
 
   const isExistingDish = Boolean(draft.id);
@@ -44,7 +50,7 @@ export const EditorDishForm = ({
         <div>
           <span className="pill-note">{isExistingDish ? '编辑菜品' : '新增菜品'}</span>
           <h1>{isExistingDish ? draft.name || '未命名菜品' : '新菜品'}</h1>
-          <p>这里保存的是共享菜单数据。保存后，静态展示页读取到的就是这份内容。</p>
+          <p>改完后直接点“保存并发布”，系统会先写入共享菜单，再自动推送到 GitHub。</p>
         </div>
 
         <div className="editor-form-panel__status">
@@ -119,6 +125,7 @@ export const EditorDishForm = ({
               type="button"
               className="ghost-button ghost-button--danger"
               onClick={onDelete}
+              disabled={isBusy}
             >
               删除这道菜
             </button>
@@ -126,9 +133,20 @@ export const EditorDishForm = ({
             <span className="editor-form__hint">新菜保存后会自动加入左侧列表。</span>
           )}
 
-          <button type="submit" className="button button--primary" disabled={isSaving}>
-            {isSaving ? '保存中...' : isExistingDish ? '保存修改' : '保存新菜'}
-          </button>
+          <div className="editor-form__action-buttons">
+            <button
+              type="button"
+              className="button button--secondary"
+              onClick={onSaveLocal}
+              disabled={isBusy}
+            >
+              {isSavingLocally ? '保存中...' : '仅保存到本地'}
+            </button>
+
+            <button type="submit" className="button button--primary" disabled={isBusy}>
+              {isPublishing ? '保存并发布中...' : '保存并发布'}
+            </button>
+          </div>
         </div>
       </form>
     </section>
