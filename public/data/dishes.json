@@ -1,152 +1,15 @@
 {
-  "updatedAt": "2026-04-16T06:14:30.155Z",
+  "updatedAt": "2026-04-16T07:04:26.989Z",
   "dishes": [
     {
-      "id": "dish-set-yan-suji",
-      "name": "盐酥鸡定食",
+      "id": "47161148-4fb4-4e8f-badb-0b284781b531",
+      "name": "螺蛳粉",
       "category": "set_meal",
-      "ingredients": [
-        "盐酥鸡",
-        "椒盐玉米",
-        "小番茄"
-      ],
+      "ingredients": [],
       "recipeSteps": [],
       "image": null,
-      "createdAt": "2026-04-08T09:00:00.000Z",
-      "updatedAt": "2026-04-16T06:14:30.155Z"
-    },
-    {
-      "id": "dish-set-curry-chicken",
-      "name": "咖喱鸡定食",
-      "category": "set_meal",
-      "ingredients": [
-        "鸡腿肉",
-        "土豆",
-        "胡萝卜",
-        "洋葱",
-        "咖喱块",
-        "米饭"
-      ],
-      "recipeSteps": [
-        "先煎香鸡腿肉，再把土豆、胡萝卜和洋葱炒到微微上色。",
-        "加水煮软后放入咖喱块，搅拌到汤汁浓稠。",
-        "配热米饭和一小份蔬菜，就能直接当完整一餐。"
-      ],
-      "image": null,
-      "createdAt": "2026-04-07T09:00:00.000Z",
-      "updatedAt": "2026-04-16T05:56:45.673Z"
-    },
-    {
-      "id": "dish-red-gongbao-jiding",
-      "name": "宫保鸡丁",
-      "category": "red",
-      "ingredients": [
-        "鸡腿肉",
-        "花生米",
-        "干辣椒",
-        "葱段",
-        "醋",
-        "糖"
-      ],
-      "recipeSteps": [
-        "鸡腿肉切丁后加少许盐、生抽和淀粉抓匀。",
-        "先把鸡丁滑熟盛出，再爆香干辣椒和花椒。",
-        "回锅加入宫保汁，快速翻炒到酱汁裹匀，最后撒花生米。"
-      ],
-      "image": "./sample-images/gongbaojiding.svg",
-      "createdAt": "2026-04-02T09:00:00.000Z",
-      "updatedAt": "2026-04-12T08:15:00.000Z"
-    },
-    {
-      "id": "dish-red-hongshao-rou",
-      "name": "红烧肉",
-      "category": "red",
-      "ingredients": [
-        "五花肉",
-        "生抽",
-        "老抽",
-        "冰糖",
-        "姜片",
-        "葱段"
-      ],
-      "recipeSteps": [
-        "五花肉切块后冷水下锅焯水，撇去浮沫备用。",
-        "锅里留少许油，放冰糖慢慢炒到棕红色。",
-        "下五花肉翻炒上色，再加生抽、老抽和热水没过肉块。",
-        "转小火慢炖到软糯，最后开大火略微收汁。"
-      ],
-      "image": "./sample-images/hongshaorou.svg",
-      "createdAt": "2026-04-01T09:00:00.000Z",
-      "updatedAt": "2026-04-11T12:40:00.000Z"
-    },
-    {
-      "id": "dish-white-qingzheng-luyu",
-      "name": "清蒸鲈鱼",
-      "category": "white",
-      "ingredients": [
-        "鲈鱼",
-        "姜丝",
-        "葱丝",
-        "蒸鱼豉油"
-      ],
-      "recipeSteps": [
-        "鱼身两面划刀，盘底铺姜片后上锅蒸熟。",
-        "出锅倒掉多余汤汁，铺上葱丝和姜丝。",
-        "淋蒸鱼豉油，再泼一勺热油提香。"
-      ],
-      "image": "./sample-images/qingzhengluyu.svg",
-      "createdAt": "2026-04-04T09:00:00.000Z",
-      "updatedAt": "2026-04-10T19:05:00.000Z"
-    },
-    {
-      "id": "dish-red-fanqie-niunan",
-      "name": "番茄牛腩",
-      "category": "red",
-      "ingredients": [
-        "牛腩",
-        "番茄",
-        "洋葱",
-        "姜",
-        "番茄膏"
-      ],
-      "recipeSteps": [],
-      "image": "./sample-images/fanqieniunan.svg",
-      "createdAt": "2026-04-03T09:00:00.000Z",
-      "updatedAt": "2026-04-09T18:20:00.000Z"
-    },
-    {
-      "id": "dish-white-baizhuo-shengcai",
-      "name": "白灼生菜",
-      "category": "white",
-      "ingredients": [
-        "生菜",
-        "蒜末",
-        "蚝油",
-        "生抽"
-      ],
-      "recipeSteps": [
-        "生菜洗净后热水快速焯熟，控水摆盘。",
-        "蒜末用少量油炒香，加入蚝油和生抽调匀。",
-        "把热汁直接淋在生菜上即可。"
-      ],
-      "image": "./sample-images/baizhuoshengcai.svg",
-      "createdAt": "2026-04-05T09:00:00.000Z",
-      "updatedAt": "2026-04-08T17:25:00.000Z"
-    },
-    {
-      "id": "dish-white-donggua-xiapi-tang",
-      "name": "冬瓜虾皮汤",
-      "category": "white",
-      "ingredients": [
-        "冬瓜",
-        "虾皮",
-        "白胡椒",
-        "香菜"
-      ],
-      "recipeSteps": [],
-      "image": "./sample-images/dongguatang.svg",
-      "createdAt": "2026-04-06T09:00:00.000Z",
-      "updatedAt": "2026-04-06T09:00:00.000Z"
+      "createdAt": "2026-04-16T07:04:26.989Z",
+      "updatedAt": "2026-04-16T07:04:26.989Z"
     }
   ]
 }
