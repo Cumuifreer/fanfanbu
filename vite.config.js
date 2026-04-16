@@ -8,6 +8,7 @@ import react from '@vitejs/plugin-react-swc';
 const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 const publicDir = path.join(projectRoot, 'public');
 const lanHost = '0.0.0.0';
+const pagesBase = '/fanfanbu/';
 const datasetFile = path.join(publicDir, 'data', 'dishes.json');
 const uploadDir = path.join(publicDir, 'menu-images', 'uploads');
 const managedImagePrefix = './menu-images/uploads/';
@@ -236,8 +237,8 @@ const createEditorFileApiPlugin = () => ({
   },
 });
 
-export default defineConfig({
-  base: './',
+export default defineConfig(({ command }) => ({
+  base: command === 'serve' ? '/' : pagesBase,
   server: {
     host: lanHost,
   },
@@ -253,4 +254,4 @@ export default defineConfig({
     },
   },
   plugins: [react(), createEditorFileApiPlugin()],
-});
+}));

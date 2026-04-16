@@ -50,6 +50,9 @@ interface Dish {
 
 ```text
 fanfanbu/
+├─ .github/
+│  └─ workflows/
+│     └─ deploy-pages.yml         # GitHub Pages 自动部署 workflow
 ├─ public/
 │  ├─ data/
 │  │  └─ dishes.json              # 共享菜单数据
@@ -67,7 +70,7 @@ fanfanbu/
 │  └─ editor-main.tsx             # 本地编辑版入口
 ├─ editor.html                    # 本地编辑版页面入口
 ├─ index.html                     # 静态展示版页面入口
-├─ vite.config.js                 # Vite + 本地文件写入 API
+├─ vite.config.js                 # 唯一生效的 Vite 配置
 └─ README.md
 ```
 
@@ -157,6 +160,7 @@ npm run build
 
 - GitHub Pages 日常给家里人访问时只需要用 `index.html`
 - `editor.html` 也会被构建出来，但真正的“保存到文件”能力只在本地开发服务器下可用
+- GitHub Pages 构建会自动按项目仓库子路径 `/fanfanbu/` 生成正确的静态资源和数据文件路径
 
 ## 日常维护流程
 
@@ -167,7 +171,8 @@ npm run build
 3. 如果需要，上传或替换图片
 4. 点击“保存修改”或“保存新菜”
 5. 打开 `http://127.0.0.1:5173/` 检查展示效果和随机选菜
-6. 提交并推送文件到 GitHub
+6. 提交并推送到 `main` 分支
+7. 等待 GitHub Actions 自动构建并发布 GitHub Pages
 
 常见会变动的文件是：
 
@@ -176,16 +181,30 @@ npm run build
 
 ## GitHub Pages 部署
 
-本项目是纯静态站点，适合直接部署到 GitHub Pages。
+本项目已经配置好 GitHub Actions 自动部署 GitHub Pages。
 
-基础流程：
+仓库地址：
 
-1. 本地编辑并保存数据
-2. 运行 `npm run build`
-3. 将 `dist/` 发布到 GitHub Pages
-4. 后续每次本地编辑完成后重新构建并发布
+- `https://github.com/Cumuifreer/fanfanbu`
 
-如果你使用 GitHub Actions 自动部署，静态站点只需要发布 `dist/` 目录即可。
+自动部署流程：
+
+1. 代码 push 到 `main` 分支
+2. `.github/workflows/deploy-pages.yml` 自动触发
+3. GitHub Actions 安装依赖并执行 `npm run build`
+4. workflow 将 `dist/` 上传为 Pages artifact
+5. GitHub Pages 自动发布最新静态站点
+
+网站访问地址：
+
+- `https://cumuifreer.github.io/fanfanbu/`
+
+补充说明：
+
+- GitHub Pages 公开发布的是静态展示版首页
+- `editor.html` 会随构建一起产出，但它仍然只适合本地开发服务器环境，不属于公开使用流程
+- 如果你在 GitHub Pages 上直接打开 `editor.html`，页面会提示应改用本地 `npm run editor`
+- 如果仓库第一次启用 Pages，而仓库设置里还没有切到 `GitHub Actions`，请在 `Settings -> Pages` 中手动选择一次，之后就会持续自动发布
 
 ## 示例数据
 
