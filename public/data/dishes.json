@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-16T07:04:26.989Z",
+  "updatedAt": "2026-04-16T09:04:03.343Z",
   "dishes": [
     {
       "id": "47161148-4fb4-4e8f-badb-0b284781b531",
@@ -7,9 +7,9 @@
       "category": "set_meal",
       "ingredients": [],
       "recipeSteps": [],
-      "image": null,
+      "image": "./menu-images/uploads/1776330243276-img-9638.jpg",
       "createdAt": "2026-04-16T07:04:26.989Z",
-      "updatedAt": "2026-04-16T07:04:26.989Z"
+      "updatedAt": "2026-04-16T09:04:03.343Z"
     }
   ]
 }
